@@ -14,6 +14,10 @@ func main() {
 
 	router.GET("/books/:id", booksHandler)
 
+	// query string
+	// http://localhost:8888/query?name=bang&age=20
+	router.GET("/query", queryHandler)
+
 	// router.Run()
 	router.Run(":8888")
 }
@@ -36,5 +40,14 @@ func booksHandler(c *gin.Context) {
 	id := c.Param("id")
 	c.JSON(http.StatusOK, gin.H{
 		"id": id,
+	})
+}
+
+func queryHandler(c *gin.Context) {
+	name := c.Query("name")
+	age := c.Query("age")
+	c.JSON(http.StatusOK, gin.H{
+		"name": name,
+		"age": age,
 	})
 }
