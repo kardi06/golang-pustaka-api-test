@@ -12,6 +12,8 @@ func main() {
 
 	router.GET("/hello", helloHandler)
 
+	router.GET("/books/:id", booksHandler)
+
 	// router.Run()
 	router.Run(":8888")
 }
@@ -27,5 +29,12 @@ func helloHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"subtitle": "Hello World",
 		"title": "Belajar golang aja deh",
+	})
+}
+
+func booksHandler(c *gin.Context) {
+	id := c.Param("id")
+	c.JSON(http.StatusOK, gin.H{
+		"id": id,
 	})
 }
