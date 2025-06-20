@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"log"
 )
 
 func main() {
@@ -13,6 +14,8 @@ func main() {
 	router.GET("/hello", helloHandler)
 
 	router.GET("/books/:id", booksHandler)
+
+	router.POST("/books", postBooksHandler)
 
 	// query string
 	// http://localhost:8888/query?name=bang&age=20
@@ -49,5 +52,23 @@ func queryHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"name": name,
 		"age": age,
+	})
+}
+
+type BookInput struct {
+	Title string
+	Price int
+}
+
+func postBooksHandler(c *gin.Context) {
+	var bookInput BookInput
+	err := c.ShouldBindJSON(&bookInput)
+	if err != nil {
+		log.Fatal(err)
+	}
+	
+	c.JSON(http.StatusOK, gin.H{
+		"title": bookInput.Title,
+		"price": bookInput.Price,
 	})
 }
